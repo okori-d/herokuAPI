@@ -56,7 +56,7 @@ def get_item(collection, item_id):
     else:
         return jsonify({"error": "Invalid collection"})
 
-    selected_collection = database[collection_name] #Here. What's this meant to do. Since now I have db1 and db2.
+    selected_collection = database[collection_name] 
     item = selected_collection.find_one({"_id": item_id})
 
     if item:
