@@ -1,1 +1,1 @@
-web: gunicorn jumia_jijiAPI:app
+web: gunicorn app:app
