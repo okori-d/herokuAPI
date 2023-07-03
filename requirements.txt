@@ -71,3 +71,4 @@ wcwidth==0.2.6
 webdriver-manager==3.8.5
 Werkzeug==2.3.4
 wsproto==1.2.0
+gunicorn
