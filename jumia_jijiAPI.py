@@ -2,6 +2,7 @@
 
 from flask import Flask, jsonify
 from pymongo import MongoClient
+from pymongo.errors import PyMongoError
 
 app = Flask(__name__)
 
@@ -28,20 +29,29 @@ def home():
 
 @app.route("/all", methods=["GET"])
 def get_all_items():
-    # Get all items from both collections
-    collection1 = db1[collection1_name]
-    collection2 = db2[collection2_name]
+    try:
+        # Get all items from both collections
+        collection1 = db1[collection1_name]
+        collection2 = db2[collection2_name]
 
-    # Projection documents to show what is included and what isn't
-    collection1_data = [document for document in collection1.find({}, {"_id": 0, "Image": 1, "Item Name": 1, "Price": 1})]
-    collection2_data = [document for document in collection2.find({}, {"_id": 0, "images": 1, "name": 1, "price": 1, "rating": 1})]
+        # Projection documents to show what is included and what isn't
+        collection1_data = [document for document in collection1.find({}, {"_id": 0, "Image": 1, "Item Name": 1, "Price": 1})]
+        collection2_data = [document for document in collection2.find({}, {"_id": 0, "images": 1, "name": 1, "price": 1, "rating": 1})]
 
-    result = {
-        "collection1": collection1_data,
-        "collection2": collection2_data
-    }
+        result = {
+            "collection1": collection1_data,
+            "collection2": collection2_data
+        }
 
-    return jsonify(result)
+        return jsonify(result)
+    except PyMongoError:
+        # Handle the session error or any other PyMongoError
+        return jsonify({"error": "An error occurred with the database session."})
+    except Exception as e:
+        # Handle other exceptions
+        return jsonify({"error": str(e)})
+
+
 
 
 @app.route("/item/<collection>/<item_id>", methods=["GET"])
