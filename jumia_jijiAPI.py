@@ -49,6 +49,10 @@ def get_all_items():
         collection1_data = [document for document in collection1.find({}, {"_id": 1, "Image": 1, "Item Name": 1, "Price": 1})]
         collection2_data = [document for document in collection2.find({}, {"_id": 1, "images": 1, "name": 1, "price": 1, "rating": 1})]
 
+        # Convert ObjectId instances to strings
+        collection1_data = [{**document, "_id": str(document["_id"])} for document in collection1_data]
+        collection2_data = [{**document, "_id": str(document["_id"])} for document in collection2_data]
+
         result = {
             "collection1": collection1_data,
             "collection2": collection2_data
