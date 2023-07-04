@@ -46,8 +46,8 @@ def get_all_items():
         collection2 = db2[collection2_name]
 
         # Projection documents to show what is included and what isn't
-        collection1_data = [document for document in collection1.find({}, {"_id": 0, "Image": 1, "Item Name": 1, "Price": 1})]
-        collection2_data = [document for document in collection2.find({}, {"_id": 0, "images": 1, "name": 1, "price": 1, "rating": 1})]
+        collection1_data = [document for document in collection1.find({}, {"_id": 1, "Image": 1, "Item Name": 1, "Price": 1})]
+        collection2_data = [document for document in collection2.find({}, {"_id": 1, "images": 1, "name": 1, "price": 1, "rating": 1})]
 
         result = {
             "collection1": collection1_data,
