@@ -1,5 +1,6 @@
 #!/home/okori/pythonproject/unicart_env/bin/python
 
+import requests
 from flask import Flask, jsonify
 from pymongo import MongoClient
 from pymongo.errors import PyMongoError
@@ -25,6 +26,16 @@ collection2_name = "products"  # Collection for jumia products
 @app.route("/", methods=["GET"])
 def home():
     return jsonify({"message": "Welcome to the API!"})
+
+@app.route("/external", methods=["GET"])
+def access_external():
+    try:
+        response = requests.get("https://instagram.com")
+        # Process the response as needed
+        return response.text  # Return the response content
+    except requests.exceptions.RequestException as e:
+        # Handle request exception
+        return str(e)
 
 
 @app.route("/all", methods=["GET"])
