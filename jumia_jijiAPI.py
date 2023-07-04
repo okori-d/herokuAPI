@@ -4,6 +4,7 @@ import requests
 from flask import Flask, jsonify
 from pymongo import MongoClient
 from pymongo.errors import PyMongoError
+from bson import ObjectId
 
 app = Flask(__name__)
 
@@ -67,27 +68,29 @@ def get_all_items():
         return jsonify({"error": str(e)})
 
 
-
-
 @app.route("/item/<collection>/<item_id>", methods=["GET"])
 def get_item(collection, item_id):
-    # Retrieve item details from the specified collection and item_id
-    if collection == "collection1":
-        collection_name = collection1_name
-        database = db1
-    elif collection == "collection2":
-        collection_name = collection2_name
-        database = db2
-    else:
-        return jsonify({"error": "Invalid collection"})
+    try:
+        # Retrieve item details from the specified collection and item_id
+        if collection == "collection1":
+            collection_name = collection1_name
+            database = db1
+        elif collection == "collection2":
+            collection_name = collection2_name
+            database = db2
+        else:
+            return jsonify({"error": "Invalid collection"})
 
-    selected_collection = database[collection_name]
-    item = selected_collection.find_one({"_id": item_id})
+        selected_collection = database[collection_name]
+        item = selected_collection.find_one({"_id": ObjectId(item_id)})
 
-    if item:
-        return jsonify(item)
-    else:
-        return jsonify({"error": "Item not found"})
+        if item:
+            return jsonify(item)
+        else:
+            return jsonify({"error": "Item not found"})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
 
 
 if __name__ == "__main__":
