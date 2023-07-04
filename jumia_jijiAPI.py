@@ -1,6 +1,6 @@
 #!/home/okori/pythonproject/unicart_env/bin/python
 
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify
 from pymongo import MongoClient
 
 app = Flask(__name__)
@@ -21,18 +21,13 @@ collection2_name = "products"  # Collection for jumia products
 
 # Routes
 
-"""@app.route("/", methods=["GET"])
-def home():
-    return render_template("index.html")"""
-
-
 @app.route("/all", methods=["GET"])
 def get_all_items():
     # Get all items from both collections
     collection1 = db1[collection1_name]
     collection2 = db2[collection2_name]
 
-    #Projection documents to show what is included and what isn't
+    # Projection documents to show what is included and what isn't
     collection1_data = [document for document in collection1.find({}, {"_id": 0, "Image": 1, "Item Name": 1, "Price": 1})]
     collection2_data = [document for document in collection2.find({}, {"_id": 0, "images": 1, "name": 1, "price": 1, "rating": 1})]
 
@@ -56,7 +51,7 @@ def get_item(collection, item_id):
     else:
         return jsonify({"error": "Invalid collection"})
 
-    selected_collection = database[collection_name] 
+    selected_collection = database[collection_name]
     item = selected_collection.find_one({"_id": item_id})
 
     if item:
