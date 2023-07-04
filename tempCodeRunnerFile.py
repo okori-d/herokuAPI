@@ -21,9 +21,9 @@ collection2_name = "products"  # Collection for jumia products
 
 # Routes
 
-"""@app.route("/", methods=["GET"])
+@app.route("/", methods=["GET"])
 def home():
-    return render_template("index.html")"""
+    return render_template("index.html")
 
 
 @app.route("/all", methods=["GET"])
