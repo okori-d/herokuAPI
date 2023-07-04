@@ -21,6 +21,11 @@ collection2_name = "products"  # Collection for jumia products
 
 # Routes
 
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({"message": "Welcome to the API!"})
+
+
 @app.route("/all", methods=["GET"])
 def get_all_items():
     # Get all items from both collections
