@@ -4,7 +4,7 @@ import requests
 from flask import Flask, jsonify
 from pymongo import MongoClient
 from pymongo.errors import PyMongoError
-from bson import ObjectId
+from bson import ObjectId, json_util
 
 app = Flask(__name__)
 
@@ -85,11 +85,12 @@ def get_item(collection, item_id):
         item = selected_collection.find_one({"_id": ObjectId(item_id)})
 
         if item:
-            return jsonify(item)
+            return json_util.dumps(item)
         else:
             return jsonify({"error": "Item not found"})
     except Exception as e:
         return jsonify({"error": str(e)})
+
 
 
 
